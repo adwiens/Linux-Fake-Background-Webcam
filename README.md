@@ -1,3 +1,9 @@
+## In this fork, `npm start` in bodypix folder starts both scripts.
+
+No live-reloading. Use Ctrl-C to quit.
+
+---
+
 # Linux-Fake-Background-Webcam
 
 ## Background
