@@ -145,8 +145,8 @@ class FakeCam:
                 mask, (0, 0), fx=1 / self.scale_factor,
                 fy=1 / self.scale_factor, interpolation=cv2.INTER_NEAREST
             )
-            mask = cv2.dilate(mask, np.ones((10, 10), np.uint8), iterations=1)
-            mask = cv2.blur(mask.astype(float), (30, 30))
+            # mask = cv2.dilate(mask, np.ones((4, 4), np.uint8), iterations=1)
+            mask = cv2.blur(mask.astype(float), (10, 10))
             return mask
 
     def shift_image(self, img, dx, dy):
@@ -366,11 +366,12 @@ def main():
         v4l2loopback_path=args.v4l2loopback_path,
         use_akvcam=args.akvcam)
     loop = asyncio.get_event_loop()
-    signal.signal(signal.SIGINT, partial(sigint_handler, loop, cam))
+    # signal.signal(signal.SIGINT, partial(sigint_handler, loop, cam)) # refresh img keybd binding
+    signal.signal(signal.SIGINT, partial(sigquit_handler, loop, cam))
     signal.signal(signal.SIGQUIT, partial(sigquit_handler, loop, cam))
     print("Running...")
-    print("Please CTRL-C to reload the background / foreground images")
-    print("Please CTRL-\ to exit")
+    # print("Please CTRL-C to reload the background / foreground images")
+    # print("Please CTRL-\ to exit")
     # frames forever
     loop.run_until_complete(cam.run())
 
